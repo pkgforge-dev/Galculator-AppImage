@@ -10,7 +10,7 @@ pacman -Syu --noconfirm galculator
 
 echo "Installing debloated packages..."
 echo "---------------------------------------------------------------"
-get-debloated-pkgs --add-common --prefer-nano ! mesa ! vulkan
+get-debloated-pkgs --add-common --prefer-nano glycin-mini ! mesa ! vulkan ! gdk-pixbuf ! librsvg
 
 # Comment this out if you need an AUR package
 #make-aur-package PACKAGENAME
