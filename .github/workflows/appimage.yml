@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Preparing Container
-        uses: pkgforge-dev/anylinux-setup-action@7278cbb7c3692fce7241d427614ef7984192f138 # v3
+        uses: pkgforge-dev/anylinux-setup-action@b2d1ce4216f71162e00ae58fa11ee9aeb723d0d5 # v5
       - name: Install Dependencies
         run: /bin/sh ./get-dependencies.sh
       - name: Make AppImage
@@ -34,13 +34,15 @@ jobs:
 
   # this part runs via QEMU so expect higher CI times
   build-additional-cpu-arches:
-    if: true # set to false to build only the native arches
+    if: true # set to true to build the below arches
     name: "${{ matrix.name }} (${{ matrix.arch }})"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
+          # comment out the arches that are not wanted
+          # note 'if: false' is set by default and these are all turned off
           - { name: Build AppImage, arch: riscv64, platform: linux/riscv64 }
           - { name: Build AppImage, arch: loongarch64, platform: linux/loong64 }
           - { name: Build AppImage, arch: ppc64le, platform: linux/ppc64le }
@@ -48,7 +50,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Build AppImage (emulated)
-        uses: pkgforge-dev/anylinux-setup-action/emulated@7278cbb7c3692fce7241d427614ef7984192f138 # v3
+        uses: pkgforge-dev/anylinux-setup-action/emulated@b2d1ce4216f71162e00ae58fa11ee9aeb723d0d5 # v5
         with:
           platform: ${{ matrix.platform }}
       - name: Upload artifact
